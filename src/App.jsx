@@ -5,17 +5,8 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { useState, useEffect } from 'react'
 import { userAuthentication } from './hooks/userAuthentication'
 
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-
-import Home from './pages/Home/Home'
-import About from './pages/About/About'
-import Register from './pages/Register/Register'
-import Login from './pages/Login/Login'
-import CreatePost from './pages/CreatePost/CreatePost'
-import Dashboard from './pages/Dashboard/Dashboard'
-import RecoveryPassword from './pages/RecoveryPassword/RecoveryPassword'
-import NotFound from './pages/NotFound/NotFound'
+import { About, CreatePost, Dashboard, Home, Login, NotFound, RecoveryPassword, Register } from './pages'
+import { Navbar, Footer } from './components'
 
 function App() {
   const [user, setUser] = useState(undefined);

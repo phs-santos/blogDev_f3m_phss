@@ -9,7 +9,8 @@ import {
 	signOut,
 	signInWithPopup,
 	GoogleAuthProvider,
-	sendPasswordResetEmail
+	sendPasswordResetEmail,
+	sendEmailVerification
 } from 'firebase/auth'
 
 const provider = new GoogleAuthProvider();
@@ -166,6 +167,46 @@ export const userAuthentication = () => {
 		}
 	}
 
+	const send_email_verification = async () => {
+		setLoading(true)
+		setAuthError(null)
+
+		try {
+			const data = await sendEmailVerification(auth.currentUser)
+
+			setLoading(false)
+			return 'Email de verificação enviado com sucesso';
+		} catch (error) {
+			let systemErrorMessage;
+
+			switch (error.code) {
+				case 'auth/missing-android-pkg-name':
+					systemErrorMessage = 'Um nome de pacote Android deve ser fornecido se o aplicativo Android estiver vinculado à mesma conta do Firebase.';
+					break;
+				case 'auth/missing-continue-uri':
+					systemErrorMessage = 'A próxima URL deve ser fornecida na solicitação.';
+					break;
+				case 'auth/missing-ios-bundle-id':
+					systemErrorMessage = 'Um ID de pacote iOS deve ser fornecido se um ID de aplicativo iOS estiver vinculado à mesma conta do Firebase.';
+					break;
+				case 'auth/invalid-continue-uri':
+					systemErrorMessage = 'A próxima URL fornecida na solicitação é inválida.';
+					break;
+				case 'auth/unauthorized-continue-uri':
+					systemErrorMessage = 'O domínio da próxima URL não está na lista de autorizações.';
+					break;
+				case 'auth/user-not-found':
+					systemErrorMessage = 'Não há usuário correspondente ao e-mail fornecido.';
+					break;
+				default:
+					systemErrorMessage = 'Ocorreu um erro, tente novamente mais tarde.';
+			}
+
+			setLoading(false)
+			setAuthError(systemErrorMessage)
+		}
+	}
+
 	return {
 		auth,
 		createUser,
@@ -173,6 +214,7 @@ export const userAuthentication = () => {
 		login_with_google,
 		logout,
 		reset_password,
+		send_email_verification,
 		authError,
 		loading
 	}
