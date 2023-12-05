@@ -24,12 +24,11 @@ export default function Login() {
     try {
       const res = await login(user, navigate)
       console.log(res)
-      if (res) navigate('/post/create')
+      navigate('/post/create')
     } catch (error) {
       console.log(error)
-      setError('Erro ao fazer login, porfavor tente novamente mais tarde')
     }
-  };
+  }
 
   const handlerLoginWithGoogle = async (e) => {
     e.preventDefault();
@@ -48,6 +47,12 @@ export default function Login() {
       setError(authError)
     }
   }, [authError])
+
+  useEffect(() => {
+    if (!auth) {
+      navigate('/post/create')
+    }
+  }, [auth])
 
   return (
     <div className={styles.login}>
@@ -81,7 +86,7 @@ export default function Login() {
           marginBottom: '10px',
           marginTop: '10px'
         }}
-        onClick={() => navigate('/recovery-password')}>
+          onClick={() => navigate('/recovery-password')}>
           Esqueci minha senha</a>
 
         <button className='btn' disabled={loading}>{!loading ? 'Login' : 'Aguarde...'}</button>

@@ -31,7 +31,8 @@ export default function Register() {
     try {
       const res = await createUser(user, navigate)
       if (res) {
-        console.log('Usuario cadastrado com sucesso:', res);      }
+        navigate('/post/create')
+      }
     } catch (error) {
       console.error('Erro ao cadastrar o usuario:', error);
       setError('Erro ao cadastrar o usuario, porfavor tente novamente mais tarde')
