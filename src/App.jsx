@@ -15,6 +15,7 @@ import Login from './pages/Login/Login'
 import CreatePost from './pages/CreatePost/CreatePost'
 import Dashboard from './pages/Dashboard/Dashboard'
 import RecoveryPassword from './pages/RecoveryPassword/RecoveryPassword'
+import NotFound from './pages/NotFound/NotFound'
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -51,6 +52,7 @@ function App() {
               <Route path='/recovery-password' element={<RecoveryPassword />}></Route>
               <Route path='/post/create' element={<CreatePost />}></Route>
               <Route path='/dashboard' element={<Dashboard />}></Route>
+              <Route path='*' element={<NotFound />}></Route>
             </Routes>
           </div>
           <Footer />
