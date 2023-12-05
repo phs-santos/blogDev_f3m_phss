@@ -1,0 +1,33 @@
+.login {
+    text-align: center;
+}
+
+.login p {
+    color: #aaa;
+}
+
+.form_login {
+    display: flex !important;
+    flex-direction: column !important;
+
+}
+
+.btn {
+    margin-top: 10px !important;
+    /* height: 50px !important; */
+    border-radius: 10px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-weight: 500 !important;
+    gap: 10px !important;
+    border: 1px solid #ededef !important;
+    background-color: white !important;
+    color: #000 !important;
+    cursor: pointer !important;
+    transition: 0.2s ease-in-out !important;
+}
+
+.btn:hover {
+    border: 1px solid #2d79f3 !important;
+}
