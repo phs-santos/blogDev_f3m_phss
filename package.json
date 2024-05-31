@@ -1,5 +1,5 @@
 {
-  "name": "front-blogdev",
+  "name": "blogdev-phss",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -24,6 +24,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "sass": "^1.77.2",
     "vite": "^4.4.5"
   }
 }

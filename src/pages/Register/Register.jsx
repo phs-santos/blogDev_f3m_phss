@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { userAuthentication } from '../../hooks/userAuthentication';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
-  //#region Controller Service
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +10,7 @@ export default function Register() {
   const [error, setError] = useState('');
 
   const { createUser, authError, loading } = userAuthentication()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
@@ -29,9 +28,10 @@ export default function Register() {
     }
 
     try {
-      const res = await createUser(user, navigate)
+      const res = await createUser(user)
       if (res) {
-        navigate('/post/create')
+        alert('Cadastro realizado com sucesso!');
+        navigate('/')
       }
     } catch (error) {
       console.error('Erro ao cadastrar o usuario:', error);

@@ -1,0 +1,39 @@
+.post_detail {
+    text-align: left;
+    margin-bottom: 2em;
+    max-width: 600px;
+}
+
+.post_detail img {
+    max-width: 600px
+}
+
+.post_detail h2 {
+    margin-bottom: .4em;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Garante que o título não ultrapasse a largura do contêiner pai */
+}
+
+.post_detail .tags {
+    margin-bottom: 1.2em;
+    display: flex;
+    flex-wrap: wrap; /* Permite que as tags quebrem para a próxima linha se não houver espaço suficiente */
+}
+
+.tags p {
+    margin-right: .5em;
+    margin-bottom: .5em; /* Adiciona um espaçamento entre as tags */
+}
+
+.tags span {
+    font-weight: 700;
+}
+
+.createdby {
+    font-style: italic;
+    color: #444;
+    font-size: .8em;
+    margin-bottom: 1em;
+}

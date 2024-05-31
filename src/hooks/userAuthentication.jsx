@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { db } from '../firebase/config'
+import { useState, useEffect } from 'react';
 
 import {
 	getAuth,
@@ -8,10 +7,8 @@ import {
 	updateProfile,
 	signOut,
 	signInWithPopup,
-	GoogleAuthProvider,
-	sendPasswordResetEmail,
-	sendEmailVerification
-} from 'firebase/auth'
+	GoogleAuthProvider
+} from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
 
@@ -21,7 +18,7 @@ export const userAuthentication = () => {
 
 	const auth = getAuth()
 
-	async function createUser(data, navigate) {
+	async function createUser(data) {
 		setLoading(true)
 		setAuthError(null)
 
@@ -37,9 +34,13 @@ export const userAuthentication = () => {
 			return user
 		} catch (error) {
 			let systemErrorMessage;
+
 			switch (error.code) {
 				case 'auth/email-already-in-use':
-					systemErrorMessage = <span>E-mail já cadastrado. <a style={{cursor: 'pointer'}} onClick={() => navigate('/login')}>Faça Login</a></span>;
+					systemErrorMessage = 'E-mail já cadastrado';
+					break;
+				case 'auth/invalid-email':
+					systemErrorMessage = 'O e-mail fornecido não é válido';
 					break;
 				case 'auth/operation-not-allowed':
 					systemErrorMessage = 'Operação não permitida';
@@ -50,26 +51,27 @@ export const userAuthentication = () => {
 				default:
 					systemErrorMessage = 'Ocorreu um erro, tente novamente mais tarde';
 			}
-			console.log(systemErrorMessage)
 
 			setLoading(false)
 			setAuthError(systemErrorMessage)
 		}
 	}
 
-	const login = async (data, navigate) => {
-		setLoading(true)
-		setAuthError(null)
+	const login = async (data) => {
+		setLoading(true);
+		setAuthError(null);
 
 		try {
-			await signInWithEmailAndPassword(auth, data.email, data.password)
-			setLoading(false)
+
+			const userLogin = await signInWithEmailAndPassword(auth, data.email, data.password);
+			setLoading(false);
+			return userLogin;
 		} catch (error) {
 			let systemErrorMessage;
 
 			switch (error.code) {
 				case 'auth/invalid-login-credentials':
-					systemErrorMessage = <span>Há erros com suas credenciais. <a style={{cursor: 'pointer'}} onClick={() => navigate('/register')}>Cadastre-se</a></span>;
+					systemErrorMessage = `Há erros com suas credenciais`;
 					break;
 				case 'auth/user-disabled':
 					systemErrorMessage = 'O usuário com este e-mail foi desabilitado';
@@ -116,105 +118,16 @@ export const userAuthentication = () => {
 		setLoading(false)
 	}
 
-	const logout = async () => {
-		setLoading(true)
-		setAuthError(null)
-
-		try {
-			await signOut(auth)
-		} catch (error) {
-			let systemErrorMessage;
-
-			switch (error.code) {
-				case 'auth/no-current-user':
-					systemErrorMessage = 'Nenhum usuário está atualmente logado.';
-					break;
-				default:
-					systemErrorMessage = 'Ocorreu um erro ao tentar sair, tente novamente mais tarde.';
-			}
-
-			setAuthError(systemErrorMessage)
-		}
-
-		setLoading(false)
-	}
-
-	const reset_password = async (email) => {
-		setLoading(true)
-		setAuthError(null)
-
-		try {
-			const data = await sendPasswordResetEmail(auth, email)
-
-			setLoading(false)
-			return 'Email de redefineção de senha enviado com sucesso';
-		} catch (error) {
-			let systemErrorMessage;
-
-			switch (error.code) {
-				case 'auth/invalid-email':
-					systemErrorMessage = 'O e-mail fornecido não é válido';
-					break;
-				case 'auth/user-not-found':
-					systemErrorMessage = 'Não há usuário correspondente ao e-mail fornecido';
-					break;
-				default:
-					systemErrorMessage = 'Ocorreu um erro, tente novamente mais tarde';
-			}
-
-			setLoading(false)
-			setAuthError(systemErrorMessage)
-		}
-	}
-
-	const send_email_verification = async () => {
-		setLoading(true)
-		setAuthError(null)
-
-		try {
-			const data = await sendEmailVerification(auth.currentUser)
-
-			setLoading(false)
-			return 'Email de verificação enviado com sucesso';
-		} catch (error) {
-			let systemErrorMessage;
-
-			switch (error.code) {
-				case 'auth/missing-android-pkg-name':
-					systemErrorMessage = 'Um nome de pacote Android deve ser fornecido se o aplicativo Android estiver vinculado à mesma conta do Firebase.';
-					break;
-				case 'auth/missing-continue-uri':
-					systemErrorMessage = 'A próxima URL deve ser fornecida na solicitação.';
-					break;
-				case 'auth/missing-ios-bundle-id':
-					systemErrorMessage = 'Um ID de pacote iOS deve ser fornecido se um ID de aplicativo iOS estiver vinculado à mesma conta do Firebase.';
-					break;
-				case 'auth/invalid-continue-uri':
-					systemErrorMessage = 'A próxima URL fornecida na solicitação é inválida.';
-					break;
-				case 'auth/unauthorized-continue-uri':
-					systemErrorMessage = 'O domínio da próxima URL não está na lista de autorizações.';
-					break;
-				case 'auth/user-not-found':
-					systemErrorMessage = 'Não há usuário correspondente ao e-mail fornecido.';
-					break;
-				default:
-					systemErrorMessage = 'Ocorreu um erro, tente novamente mais tarde.';
-			}
-
-			setLoading(false)
-			setAuthError(systemErrorMessage)
-		}
+	const logout = () => {
+		signOut(auth)
 	}
 
 	return {
 		auth,
 		createUser,
-		login,
+		login, 
 		login_with_google,
 		logout,
-		reset_password,
-		send_email_verification,
 		authError,
 		loading
 	}
